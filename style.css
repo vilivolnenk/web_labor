@@ -1,0 +1,68 @@
+/* Alap reset és dobozmodell */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+/* Színek és tipográfia */
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  background-color: #f4f8ff; /* (5) Háttérszín */
+  color: #222; /* (5) Kontraszt */
+}
+
+h1 {
+  color: royalblue;
+}
+
+h2 {
+  color: seagreen;
+}
+
+/* (4) Térközök és bekezdések */
+p {
+  margin: 20px 0;
+  line-height: 1.7;
+}
+
+/* (6) Gomb-stílus és hover */
+button {
+  background-color: orange;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: darkorange;
+}
+
+/* (7) Fókusz-jelzés */
+button:focus,
+a:focus,
+input:focus,
+textarea:focus {
+  outline: 3px solid cornflowerblue;
+  outline-offset: 2px;
+}
+
+/* (8) Képek formázása */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px; /* Kerekített sarkok */
+}
+
+.avatar {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%; /* Kör alak */
+  object-fit: cover;
+}
