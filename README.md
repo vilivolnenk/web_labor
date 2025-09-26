@@ -1,2 +1,2 @@
-# web_labor
+# ide kerulnek a laboron megoldott feladatok
 .
