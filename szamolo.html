@@ -1,0 +1,68 @@
+<button onclick="incrementCounter()">Növelés</button>
+<p id="counter">0</p>
+
+<script>
+let count = 0;
+function incrementCounter() {
+  count++;
+  document.getElementById('counter').innerText = count;
+}
+</script>
+<button onclick="askName()">Kérdezd meg a nevét</button>
+<p id="name"></p>
+
+<script>
+function askName() {
+  let name = prompt('Mi a neved?');
+  document.getElementById('name').innerText = 'Üdvözöllek, ' + name + '!';
+}
+</script>
+<button onclick="startCountdown()">Indítsd el</button>
+<p id="countdown">10</p>
+
+<script>
+function startCountdown() {
+  let timeLeft = 10;
+  let timer = setInterval(function() {
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      document.getElementById('countdown').innerText = 'Idő lejárt!';
+    } else {
+      document.getElementById('countdown').innerText = timeLeft;
+    }
+    timeLeft--;
+  }, 1000);
+}
+</script>
+<ul id="fruitList"></ul>
+
+<script>
+let fruits = ['Alma', 'Banán', 'Narancs'];
+fruits.forEach(function(fruit) {
+  document.getElementById('fruitList').innerHTML += '<li>' + fruit + '</li>';
+});
+</script>
+
+<ul id="personInfo"></ul>
+
+<script>
+let person = { name: 'John', age: 30, city: 'Budapest' };
+for (let key in person) {
+  document.getElementById('personInfo').innerHTML +=
+    '<li>' + key + ': ' + person[key] + '</li>';
+}
+</script>
+<button onclick="changeBg()">Háttér váltás</button>
+
+<script>
+function changeBg() {
+  document.body.style.backgroundColor = 'lightcoral';
+}
+</script>
+<script>
+window.onload = function() {
+  setTimeout(function() {
+    alert('Üdvözöllek az oldalon!');
+  }, 5000);
+}
+</script>
