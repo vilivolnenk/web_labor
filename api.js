@@ -6,7 +6,6 @@ class WeatherAPI {
         this.lang = CONFIG.LANGUAGE;
     }
 
-    // Aktuális időjárás lekérése város neve alapján
     async getCurrentWeather(cityName) {
         try {
             const url = `${this.baseUrl}/weather?q=${cityName}&appid=${this.apiKey}&units=${this.units}&lang=${this.lang}`;
@@ -24,7 +23,6 @@ class WeatherAPI {
         }
     }
 
-    // 5 napos előrejelzés
     async getForecast(cityName) {
         try {
             const url = `${this.baseUrl}/forecast?q=${cityName}&appid=${this.apiKey}&units=${this.units}&lang=${this.lang}`;
@@ -42,10 +40,8 @@ class WeatherAPI {
         }
     }
 
-    // Koordináták alapján (One Call API - részletesebb)
     async getWeatherByCoordinates(lat, lon) {
         try {
-            // One Call API 3.0 (új verzió)
             const url = `${this.baseUrl}/onecall?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=${this.units}&lang=${this.lang}`;
             const response = await fetch(url);
             
@@ -61,7 +57,6 @@ class WeatherAPI {
         }
     }
 
-    // Aktuális időjárás formázása
     formatCurrentWeather(data) {
         return {
             temp: Math.round(data.main.temp),
@@ -81,7 +76,6 @@ class WeatherAPI {
         };
     }
 
-    // 5 napos előrejelzés formázása
     formatForecast(data) {
         const dailyData = {};
         
@@ -105,7 +99,6 @@ class WeatherAPI {
             dailyData[date].clouds.push(item.clouds.all);
         });
 
-        // Napi átlagok számítása
         return Object.keys(dailyData).map(date => ({
             date: date,
             avgTemp: Math.round(
@@ -125,7 +118,6 @@ class WeatherAPI {
         }));
     }
 
-    // One Call API formázása
     formatOneCallWeather(data) {
         return {
             current: {
@@ -149,10 +141,6 @@ class WeatherAPI {
     }
 }
 
-// ============================================
-// GOOGLE PLACES API
-// ============================================
-
 class PlacesAPI {
     constructor() {
         this.apiKey = CONFIG.GOOGLE_API_KEY;
@@ -160,7 +148,6 @@ class PlacesAPI {
         this.language = CONFIG.LANGUAGE;
     }
 
-    // Helyszín keresése
     async searchPlaces(query, location = null) {
         try {
             let url = `${this.baseUrl}/textsearch/json?query=${encodeURIComponent(query)}&key=${this.apiKey}&language=${this.language}`;
@@ -183,7 +170,6 @@ class PlacesAPI {
         }
     }
 
-    // Helyszín részletek
     async getPlaceDetails(placeId) {
         try {
             const url = `${this.baseUrl}/details/json?place_id=${placeId}&key=${this.apiKey}&language=${this.language}&fields=name,rating,formatted_address,geometry,photos,types,user_ratings_total`;
@@ -202,12 +188,10 @@ class PlacesAPI {
         }
     }
 
-    // Helyszín fotó URL generálása
     getPhotoUrl(photoReference, maxWidth = 400) {
         return `${this.baseUrl}/photo?maxwidth=${maxWidth}&photo_reference=${photoReference}&key=${this.apiKey}`;
     }
 
-    // Autocomplete
     async getAutocompleteSuggestions(input) {
         try {
             const url = `${this.baseUrl}/autocomplete/json?input=${encodeURIComponent(input)}&types=(cities)&key=${this.apiKey}&language=${this.language}`;
@@ -226,7 +210,6 @@ class PlacesAPI {
         }
     }
 
-    // Helyszín eredmények formázása
     formatPlaceResults(results) {
         return results.map(place => ({
             placeId: place.place_id,
@@ -242,7 +225,6 @@ class PlacesAPI {
         }));
     }
 
-    // Nearby keresés (közeli helyek)
     async getNearbyPlaces(location, radius = 5000, type = 'tourist_attraction') {
         try {
             const url = `${this.baseUrl}/nearbysearch/json?location=${location.lat},${location.lng}&radius=${radius}&type=${type}&key=${this.apiKey}&language=${this.language}`;
@@ -262,20 +244,14 @@ class PlacesAPI {
     }
 }
 
-// ============================================
-// KOMBINÁLT KERESÉS
-// ============================================
-
 class DestinationSearchService {
     constructor() {
         this.weatherAPI = new WeatherAPI();
         this.placesAPI = new PlacesAPI();
     }
 
-    // Komplex keresés: Város + időjárás + látnivalók
     async searchDestination(cityName) {
         try {
-            // Párhuzamos API hívások
             const [weather, forecast, places] = await Promise.all([
                 this.weatherAPI.getCurrentWeather(cityName),
                 this.weatherAPI.getForecast(cityName),
@@ -286,7 +262,7 @@ class DestinationSearchService {
                 city: cityName,
                 weather: weather,
                 forecast: forecast,
-                places: places.slice(0, 5), // Top 5 látnivaló
+                places: places.slice(0, 5),
                 photos: places[0]?.photos || []
             };
         } catch (error) {
@@ -295,7 +271,6 @@ class DestinationSearchService {
         }
     }
 
-    // Több város összehasonlítása
     async compareDestinations(cities) {
         const results = await Promise.all(
             cities.map(city => this.searchDestination(city))
@@ -305,7 +280,6 @@ class DestinationSearchService {
     }
 }
 
-// Példányosítás
 const weatherAPI = new WeatherAPI();
 const placesAPI = new PlacesAPI();
 const destinationSearch = new DestinationSearchService();
