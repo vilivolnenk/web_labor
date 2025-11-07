@@ -1,14 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Trivia Battle - Test your knowledge!" />
-    <title>🎮 Trivia Battle</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-  </body>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nyaralástervező</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌍 Nyaralástervező</h1>
+            <p class="subtitle">Találd meg az ideális úti célt az időjárás alapján!</p>
+        </header>
+
+        <div class="search-card">
+            <form id="searchForm">
+                <div class="form-group">
+                    <label for="startDate">Utazás kezdete:</label>
+                    <input type="date" id="startDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="duration">Tartózkodás időtartama (napok):</label>
+                    <input type="number" id="duration" min="1" max="30" value="7" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="minTemp">Minimum hőmérséklet (°C):</label>
+                    <input type="number" id="minTemp" value="20" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="maxTemp">Maximum hőmérséklet (°C):</label>
+                    <input type="number" id="maxTemp" value="30" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Preferenciák:</label>
+                    <div class="preferences">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="sunny" checked>
+                            <label for="sunny">Napos időjárás</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="beach">
+                            <label for="beach">Tengerpart</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="culture">
+                            <label for="culture">Kultúra</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="nature">
+                            <label for="nature">Természet</label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="search-btn">🔍 Keresés indítása</button>
+            </form>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Úti célok keresése...</p>
+        </div>
+
+        <div class="results" id="results"></div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/destinations.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+</body>
 </html>
